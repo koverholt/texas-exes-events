@@ -17,7 +17,7 @@
 
     <img src="/images/texas-exes-highland-lakes-chapter.png">
 
-    <div id="app">
+    <div id="app" v-cloak>
 
       <p>
         <h5>
@@ -27,7 +27,7 @@
 
       The following ticket purchases or donations have occurred in the last 60 days:
 
-      <div v-cloak>
+      <div>
         <table id="events">
           <tr>
             <th>Event or Donation</th>
@@ -40,7 +40,7 @@
         </table>
       </div>
 
-      <div id="date" v-cloak>
+      <div>
         This report was generated on {{ fetch_date }} US Central Time.
       </div>
 
