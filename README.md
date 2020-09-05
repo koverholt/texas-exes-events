@@ -1,2 +1,5 @@
 # texas-exes-events
-Source for https://algorithmia.com/algorithms/koverholt/TexasExesEvents
+
+Report of ticket sales for Texas Exes Highland Lakes Chapter Events
+
+Algorithm at https://algorithmia.com/algorithms/koverholt/TexasExesEvents
