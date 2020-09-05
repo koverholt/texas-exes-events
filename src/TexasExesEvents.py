@@ -16,6 +16,9 @@ except KeyError:
     print("The secrets SQUARE_TOKEN and/or SQUARE_LOCATION_ID are not defined. Exiting.")
     sys.exit()
 
+print(SQUARE_ACCESS_TOKEN)
+print(SQUARE_LOCATION_ID)
+
 def apply(input):
     TIMEZONE = "US/Central"
     fetch_date = datetime.now(pytz.timezone(TIMEZONE))
