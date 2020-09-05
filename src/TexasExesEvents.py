@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 from square.client import Client
 
 client = Algorithmia.client()
-secrets = json.loads(client.file("data://.my/TexasExesEvents/secrets.json").getString())
+secrets = json.loads(client.file("data://koverholt/TexasExesEvents/secrets.json").getString())
 
 try:
     SQUARE_ACCESS_TOKEN = secrets["square-access-token"]
@@ -15,9 +15,6 @@ try:
 except KeyError:
     print("The secrets SQUARE_TOKEN and/or SQUARE_LOCATION_ID are not defined. Exiting.")
     sys.exit()
-
-print(SQUARE_ACCESS_TOKEN)
-print(SQUARE_LOCATION_ID)
 
 def apply(input):
     TIMEZONE = "US/Central"
