@@ -5,8 +5,8 @@ xhr.send();
 
 xhr.onload = function () {
   var obj = JSON.parse(this.response);
-    var event_counts = obj["event_counts"];
-    var fetch_date = obj["fetch_date"];
+  var event_counts = obj["event_counts"];
+  var fetch_date = obj["fetch_date"];
 
   var app = new Vue({
     el: '#app',
@@ -15,5 +15,4 @@ xhr.onload = function () {
       fetch_date: fetch_date,
     }
   })
-
-});
+};
