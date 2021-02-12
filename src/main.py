@@ -1,13 +1,9 @@
-import Algorithmia
 import json
 import os
 import pytz
 import sys
 from datetime import datetime, timedelta
 from square.client import Client
-
-client = Algorithmia.client()
-secrets = json.loads(client.file("data://koverholt/TexasExesEvents/secrets.json").getString())
 
 try:
     SQUARE_ACCESS_TOKEN = secrets["square-access-token"]
@@ -16,7 +12,31 @@ except KeyError:
     print("The secrets SQUARE_TOKEN and/or SQUARE_LOCATION_ID are not defined. Exiting.")
     sys.exit()
 
-def apply(input):
+def apply(request):
+    """Responds to any HTTP request.
+    Args:
+        request (flask.Request): HTTP request object.
+    Returns:
+        The response text or any set of values that can be turned into a
+        Response object using
+        `make_response <http://flask.pocoo.org/docs/1.0/api/#flask.Flask.make_response>`.
+    """
+
+    if request.method == 'OPTIONS':
+        headers = {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'GET',
+            'Access-Control-Allow-Headers': 'Content-Type',
+            'Access-Control-Max-Age': '3600'
+        }
+        return ('', 204, headers)
+
+    headers = {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST',
+        'Access-Control-Allow-Headers': 'Content-Type'
+    }
+
     TIMEZONE = "US/Central"
     fetch_date = datetime.now(pytz.timezone(TIMEZONE))
     fetch_date = fetch_date.strftime("%B %-d, %Y at %-I:%M %p")
@@ -79,9 +99,5 @@ def apply(input):
             except:
                 pass
 
-    resp = {"event_counts": event_counts, "fetch_date": fetch_date}
-    return resp
-
-
-if __name__ == "__main__":
-    apply(input)
+    result = {"event_counts": event_counts, "fetch_date": fetch_date}
+    return (result, 200, headers)
