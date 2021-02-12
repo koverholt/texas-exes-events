@@ -6,10 +6,10 @@ from datetime import datetime, timedelta
 from square.client import Client
 
 try:
-    SQUARE_ACCESS_TOKEN = secrets["square-access-token"]
-    SQUARE_LOCATION_ID = secrets["square-location-id"]
+    SQUARE_ACCESS_TOKEN = os.environ["SQUARE_ACCESS_TOKEN"]
+    SQUARE_LOCATION_ID = os.environ["SQUARE_LOCATION_ID"]
 except KeyError:
-    print("The secrets SQUARE_TOKEN and/or SQUARE_LOCATION_ID are not defined. Exiting.")
+    print("SQUARE_TOKEN and/or SQUARE_LOCATION_ID are not defined. Exiting.")
     sys.exit()
 
 def apply(request):
