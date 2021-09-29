@@ -9,7 +9,7 @@ try:
     SQUARE_ACCESS_TOKEN = os.environ["SQUARE_ACCESS_TOKEN"]
     SQUARE_LOCATION_ID = os.environ["SQUARE_LOCATION_ID"]
 except KeyError:
-    print("SQUARE_TOKEN and/or SQUARE_LOCATION_ID are not defined. Exiting.")
+    print("SQUARE_ACCESS_TOKEN and/or SQUARE_LOCATION_ID are not defined. Exiting.")
     sys.exit()
 
 def apply(request):
@@ -50,21 +50,21 @@ def apply(request):
 
     orders_api = client.orders
 
-    current_date = str(datetime.now().isoformat())
-    past_date = str((datetime.now() - timedelta(60)).isoformat())
+    current_date = str(datetime.now().astimezone().isoformat())
+    past_date = str((datetime.now().astimezone() - timedelta(days=60)).isoformat())
 
     body = {}
     body["location_ids"] = [SQUARE_LOCATION_ID]
     body["query"] = {}
     body["query"]["filter"] = {}
     body["query"]["filter"]["state_filter"] = {}
-    body["query"]["filter"]["state_filter"]["states"] = ["COMPLETED"]
+    body["query"]["filter"]["state_filter"]["states"] = ["OPEN"]
     body["query"]["filter"]["date_time_filter"] = {}
-    body["query"]["filter"]["date_time_filter"]["closed_at"] = {}
-    body["query"]["filter"]["date_time_filter"]["closed_at"]["start_at"] = past_date
-    body["query"]["filter"]["date_time_filter"]["closed_at"]["end_at"] = current_date
+    body["query"]["filter"]["date_time_filter"]["created_at"] = {}
+    body["query"]["filter"]["date_time_filter"]["created_at"]["start_at"] = past_date
+    body["query"]["filter"]["date_time_filter"]["created_at"]["end_at"] = current_date
     body["query"]["sort"] = {}
-    body["query"]["sort"]["sort_field"] = "CLOSED_AT"
+    body["query"]["sort"]["sort_field"] = "CREATED_AT"
     body["query"]["sort"]["sort_order"] = "DESC"
     body["limit"] = 100
     body["return_entries"] = True
@@ -84,7 +84,7 @@ def apply(request):
     body = {}
     body["order_ids"] = orders
 
-    result = orders_api.batch_retrieve_orders(SQUARE_LOCATION_ID, body)
+    result = orders_api.batch_retrieve_orders(body)
     res_retrieve = json.loads(result.text)
     if not res_retrieve:
         res_retrieve["orders"] = ""
